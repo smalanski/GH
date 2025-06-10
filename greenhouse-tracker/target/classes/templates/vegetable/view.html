@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Vegetable Details</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 th:text="${vegetable.name + ' ' + vegetable.variety}">Vegetable Name</h2>
+            <div>
+                <a th:href="@{/vegetables}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+                <a th:href="@{/vegetables/edit/{id}(id=${vegetable.id})}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Vegetable details -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Vegetable Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Name:</strong> <span th:text="${vegetable.name}">Name</span></p>
+                        <p><strong>Variety:</strong> <span th:text="${vegetable.variety}">Variety</span></p>
+                        <p><strong>Greenhouse:</strong> 
+                            <a th:href="@{/greenhouses/{id}(id=${vegetable.greenhouse.id})}" 
+                               th:text="${vegetable.greenhouse.name}">Greenhouse</a>
+                        </p>
+                        <p><strong>Planting Date:</strong> 
+                            <span th:text="${#temporals.format(vegetable.plantingDate, 'dd-MM-yyyy')}">01-01-2023</span>
+                        </p>
+                        <p><strong>Expected Harvest Date:</strong> 
+                            <span th:text="${vegetable.expectedHarvestDate != null ? #temporals.format(vegetable.expectedHarvestDate, 'dd-MM-yyyy') : 'N/A'}">01-03-2023</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notes -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Notes</h5>
+                    </div>
+                    <div class="card-body">
+                        <p th:if="${vegetable.notes != null and !vegetable.notes.isEmpty()}" 
+                           th:text="${vegetable.notes}" class="mb-0">Notes about this vegetable.</p>
+                        <p th:if="${vegetable.notes == null or vegetable.notes.isEmpty()}" 
+                           class="text-muted mb-0">No notes available.</p>
+                    </div>
+                </div>
+
+                <!-- Growing status card -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">Growing Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${vegetable.plantingDate != null and vegetable.expectedHarvestDate != null}">
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                     th:style="'width: ' + ${T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, T(java.time.LocalDate).now()) * 100.0 / T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, vegetable.expectedHarvestDate)} + '%'"
+                                     th:text="${#numbers.formatDecimal(T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, T(java.time.LocalDate).now()) * 100.0 / T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, vegetable.expectedHarvestDate), 1, 0) + '%'}">
+                                     25%
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <small th:text="${#temporals.format(vegetable.plantingDate, 'dd MMM')}">01 Jan</small>
+                                <small th:text="${#temporals.format(vegetable.expectedHarvestDate, 'dd MMM')}">01 Mar</small>
+                            </div>
+                            <div class="text-center mt-3">
+                                <span th:if="${vegetable.expectedHarvestDate.isAfter(T(java.time.LocalDate).now())}"
+                                      th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), vegetable.expectedHarvestDate) + ' days until harvest'}">
+                                    30 days until harvest
+                                </span>
+                                <span th:if="${vegetable.expectedHarvestDate.isBefore(T(java.time.LocalDate).now()) or vegetable.expectedHarvestDate.isEqual(T(java.time.LocalDate).now())}"
+                                      class="text-success fw-bold">
+                                    Ready to harvest!
+                                </span>
+                            </div>
+                        </div>
+                        <p th:if="${vegetable.plantingDate == null or vegetable.expectedHarvestDate == null}" 
+                           class="text-muted mb-0">Planting or harvest date not set.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

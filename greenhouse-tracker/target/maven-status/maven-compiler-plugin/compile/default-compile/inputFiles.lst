@@ -1,0 +1,14 @@
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\controller\api\VegetableRestController.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\service\GreenhouseService.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\service\VegetableService.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\controller\web\VegetableWebController.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\controller\web\HomeController.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\GreenhouseApplication.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\controller\api\GreenhouseRestController.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\repository\GreenhouseRepository.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\repository\VegetableRepository.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\dto\VegetableDto.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\controller\web\GreenhouseWebController.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\dto\GreenhouseDto.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\model\Vegetable.java
+C:\szkolenie_copilot\greenhouse-tracker\src\main\java\com\greenhouse\model\Greenhouse.java

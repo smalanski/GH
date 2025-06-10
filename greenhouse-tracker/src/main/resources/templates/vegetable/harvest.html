@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Harvest Calendar</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Harvest Calendar</h2>
+            <a th:href="@{/vegetables/new}" class="btn btn-success">
+                <i class="fas fa-plus-circle"></i> Add Vegetable
+            </a>
+        </div>
+        
+        <!-- Harvest filter -->
+        <div class="card mb-4">
+            <div class="card-header bg-warning">
+                <h5 class="card-title mb-0">Ready to Harvest</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/vegetables/ready-to-harvest}" method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="before" class="form-label">Harvest before:</label>
+                        <input type="date" class="form-control" id="before" name="before" 
+                               th:value="${harvestDate}">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-warning w-100">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end justify-content-end">
+                        <div class="text-muted">
+                            <span th:if="${vegetables != null}">
+                                Showing <span th:text="${vegetables.size()}">0</span> vegetables
+                                ready to harvest before
+                                <span th:text="${#temporals.format(harvestDate, 'dd-MM-yyyy')}">01-01-2023</span>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Harvest list -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="vegetable : ${vegetables}">
+                <div class="card h-100">
+                    <div class="card-header bg-warning">
+                        <h5 class="card-title mb-0" th:text="${vegetable.name + ' ' + vegetable.variety}">Tomato Roma</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <strong>Greenhouse:</strong> 
+                            <a th:href="@{/greenhouses/{id}(id=${vegetable.greenhouse.id})}" 
+                               th:text="${vegetable.greenhouse.name}">Main Greenhouse</a>
+                        </p>
+                        <p class="card-text">
+                            <strong>Planted:</strong> 
+                            <span th:text="${#temporals.format(vegetable.plantingDate, 'dd-MM-yyyy')}">01-01-2023</span>
+                        </p>
+                        <p class="card-text">
+                            <strong>Expected Harvest:</strong> 
+                            <span th:text="${#temporals.format(vegetable.expectedHarvestDate, 'dd-MM-yyyy')}">01-03-2023</span>
+                        </p>
+                        <p class="card-text" th:if="${vegetable.notes != null and !vegetable.notes.isEmpty()}">
+                            <strong>Notes:</strong> <span th:text="${vegetable.notes}">Notes</span>
+                        </p>
+                        
+                        <!-- Harvest status -->
+                        <div class="text-center mt-3">
+                            <span th:if="${vegetable.expectedHarvestDate.isAfter(T(java.time.LocalDate).now())}"
+                                  class="badge bg-primary" 
+                                  th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), vegetable.expectedHarvestDate) + ' days remaining'}">
+                                30 days remaining
+                            </span>
+                            <span th:if="${vegetable.expectedHarvestDate.isBefore(T(java.time.LocalDate).now()) or vegetable.expectedHarvestDate.isEqual(T(java.time.LocalDate).now())}"
+                                  class="badge bg-success">
+                                Ready to harvest!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a th:href="@{/vegetables/{id}(id=${vegetable.id})}" class="btn btn-info">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <a th:href="@{/vegetables/edit/{id}(id=${vegetable.id})}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Empty state -->
+        <div class="text-center py-5" th:if="${#lists.isEmpty(vegetables)}">
+            <div class="mb-3">
+                <i class="fas fa-harvest fa-4x text-muted"></i>
+            </div>
+            <h3>No vegetables ready for harvest</h3>
+            <p class="text-muted">No vegetables are ready to harvest before the selected date</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${greenhouse.id != null ? 'Edit Greenhouse' : 'New Greenhouse'}">Greenhouse Form</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 th:text="${greenhouse.id != null ? 'Edit Greenhouse' : 'New Greenhouse'}" class="card-title mb-0">Greenhouse Form</h3>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/greenhouses/save}" th:object="${greenhouse}" method="post">
+                    <input type="hidden" th:field="*{id}" />
+                      <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}"
+                               th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                            Please provide a name
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" th:field="*{location}"
+                               th:classappend="${#fields.hasErrors('location')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">
+                            Invalid location
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="sizeSqm" class="form-label">Size (m²)</label>
+                        <input type="number" step="0.1" min="0" class="form-control" id="sizeSqm" th:field="*{sizeSqm}"
+                               th:classappend="${#fields.hasErrors('sizeSqm')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('sizeSqm')}" th:errors="*{sizeSqm}">
+                            Size must be positive
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/greenhouses}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
