@@ -1,5 +1,6 @@
 package com.greenhouse.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Vegetable {
     
     @ManyToOne
     @JoinColumn(name = "greenhouse_id", nullable = false)
+    @JsonBackReference
     private Greenhouse greenhouse;
     
     @Column(name = "planting_date")
