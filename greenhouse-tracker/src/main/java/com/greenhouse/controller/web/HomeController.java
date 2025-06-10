@@ -1,4 +1,4 @@
-package main.java.com.greenhouse.controller.web;
+package com.greenhouse.controller.web;
 
 import com.greenhouse.service.GreenhouseService;
 import com.greenhouse.service.VegetableService;

@@ -1,4 +1,4 @@
-package main.java.com.greenhouse.dto;
+package com.greenhouse.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

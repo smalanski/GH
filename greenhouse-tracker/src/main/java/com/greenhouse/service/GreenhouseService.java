@@ -1,4 +1,4 @@
-package main.java.com.greenhouse.service;
+package com.greenhouse.service;
 
 import com.greenhouse.model.Greenhouse;
 import com.greenhouse.repository.GreenhouseRepository;

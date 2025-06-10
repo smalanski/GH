@@ -1,4 +1,4 @@
-package test.java.com.greenhouse;
+package com.greenhouse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

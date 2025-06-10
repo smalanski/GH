@@ -1,4 +1,4 @@
-package main.java.com.greenhouse.controller.web;
+package com.greenhouse.controller.web;
 
 import com.greenhouse.dto.GreenhouseDto;
 import com.greenhouse.model.Greenhouse;

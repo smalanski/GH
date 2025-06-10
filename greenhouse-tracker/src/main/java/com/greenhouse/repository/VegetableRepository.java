@@ -1,4 +1,4 @@
-package main.java.com.greenhouse.repository;
+package com.greenhouse.repository;
 
 import com.greenhouse.model.Vegetable;
 import org.springframework.data.jpa.repository.JpaRepository;

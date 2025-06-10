@@ -1,4 +1,4 @@
-package main.java.com.greenhouse.controller.api;
+package com.greenhouse.controller.api;
 
 import com.greenhouse.model.Vegetable;
 import com.greenhouse.service.VegetableService;

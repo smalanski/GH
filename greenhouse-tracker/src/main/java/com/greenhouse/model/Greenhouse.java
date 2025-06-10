@@ -1,4 +1,4 @@
-package main.java.com.greenhouse.model;
+package com.greenhouse.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
