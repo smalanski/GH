@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vegetables")
@@ -31,9 +32,11 @@ public class Vegetable {
     
     @Column(name = "planting_date")
     private LocalDate plantingDate;
-    
-    @Column(name = "expected_harvest_date")
+      @Column(name = "expected_harvest_date")
     private LocalDate expectedHarvestDate;
+    
+    @Column(name = "last_watering")
+    private LocalDateTime lastWatering;
     
     private String notes;
 }

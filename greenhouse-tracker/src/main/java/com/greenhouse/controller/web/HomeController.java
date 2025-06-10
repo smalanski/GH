@@ -19,13 +19,12 @@ public class HomeController {
     public HomeController(GreenhouseService greenhouseService, VegetableService vegetableService) {
         this.greenhouseService = greenhouseService;
         this.vegetableService = vegetableService;
-    }
-
-    @GetMapping("/")
+    }    @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("greenhouseCount", greenhouseService.findAllGreenhouses().size());
         model.addAttribute("vegetableCount", vegetableService.getAllVegetables().size());
         model.addAttribute("upcomingHarvest", vegetableService.getVegetablesReadyToHarvest(LocalDate.now().plusDays(7)));
+        model.addAttribute("unwateredVegetables", vegetableService.getUnwateredVegetables());
         return "home";
     }
     

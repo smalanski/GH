@@ -56,13 +56,21 @@
                             Invalid planting date
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
+                      <div class="mb-3">
                         <label for="expectedHarvestDate" class="form-label">Expected Harvest Date</label>
                         <input type="date" class="form-control" id="expectedHarvestDate" th:field="*{expectedHarvestDate}"
                                th:classappend="${#fields.hasErrors('expectedHarvestDate')} ? 'is-invalid'">
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('expectedHarvestDate')}" th:errors="*{expectedHarvestDate}">
                             Invalid harvest date
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="lastWatering" class="form-label">Last Watering (Date and Time)</label>
+                        <input type="datetime-local" class="form-control" id="lastWatering" th:field="*{lastWatering}"
+                               th:classappend="${#fields.hasErrors('lastWatering')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('lastWatering')}" th:errors="*{lastWatering}">
+                            Invalid watering date/time
                         </div>
                     </div>
                     

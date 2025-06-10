@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -32,9 +33,11 @@ public class VegetableDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @PastOrPresent(message = "Planting date cannot be in the future")
     private LocalDate plantingDate;
-    
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate expectedHarvestDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime lastWatering;
     
     @Size(max = 500, message = "Notes cannot exceed 500 characters")
     private String notes;

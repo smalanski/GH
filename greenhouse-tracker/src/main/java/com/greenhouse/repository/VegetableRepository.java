@@ -13,4 +13,5 @@ public interface VegetableRepository extends JpaRepository<Vegetable, Long> {
     List<Vegetable> findByNameContainingIgnoreCase(String name);
     List<Vegetable> findByPlantingDateBetween(LocalDate start, LocalDate end);
     List<Vegetable> findByExpectedHarvestDateBefore(LocalDate date);
+    List<Vegetable> findByLastWateringIsNull();
 }

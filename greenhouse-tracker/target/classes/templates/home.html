@@ -6,7 +6,43 @@
     <title>Home</title>
 </head>
 <body>
-    <div layout:fragment="content">
+    <div layout:fragment="content">        <!-- Unwatered Vegetables Warning Section -->
+        <div class="alert alert-danger border-danger shadow-lg mb-4 no-auto-dismiss" th:if="${not #lists.isEmpty(unwateredVegetables)}">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-tint-slash fa-3x me-3 text-danger"></i>
+                <h3 class="mb-0">Vegetables Needing Water!</h3>
+            </div>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-danger table-striped table-bordered border-danger mb-0">
+                    <thead>                        <tr class="bg-danger text-white">
+                            <th>Vegetable</th>
+                            <th>Variety</th>
+                            <th>Greenhouse</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="veg : ${unwateredVegetables}">
+                            <td><a th:href="@{/vegetables/{id}(id=${veg.id})}" class="fw-bold text-danger" th:text="${veg.name}">Tomato</a></td>
+                            <td th:text="${veg.variety}">Roma</td>
+                            <td th:text="${veg.greenhouse.name}">Greenhouse</td>
+                            <td><span class="badge bg-danger">Not watered</span></td>
+                            <td>
+                                <a th:href="@{/vegetables/water/{id}(id=${veg.id})}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-tint me-1"></i>Water
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-3 text-center">
+                <p class="mb-0"><i class="fas fa-exclamation-triangle"></i> These vegetables need watering immediately!</p>
+            </div>
+        </div>
+        
         <div class="jumbotron bg-light p-5 rounded">
             <h1 class="display-4">Welcome to Greenhouse Vegetable Tracker</h1>
             <p class="lead">Track your vegetable planting, growth, and harvests across multiple greenhouses.</p>

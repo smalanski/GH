@@ -35,9 +35,11 @@
                         </p>
                         <p><strong>Planting Date:</strong> 
                             <span th:text="${#temporals.format(vegetable.plantingDate, 'dd-MM-yyyy')}">01-01-2023</span>
-                        </p>
-                        <p><strong>Expected Harvest Date:</strong> 
+                        </p>                        <p><strong>Expected Harvest Date:</strong> 
                             <span th:text="${vegetable.expectedHarvestDate != null ? #temporals.format(vegetable.expectedHarvestDate, 'dd-MM-yyyy') : 'N/A'}">01-03-2023</span>
+                        </p>
+                        <p><strong>Last Watering:</strong> 
+                            <span th:text="${vegetable.lastWatering != null ? #temporals.format(vegetable.lastWatering, 'dd-MM-yyyy HH:mm') : 'Not watered yet'}">01-03-2023 14:30</span>
                         </p>
                     </div>
                 </div>

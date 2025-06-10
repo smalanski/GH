@@ -8,10 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     tooltips.map(function(tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-    
-    // Auto-dismiss alerts after 5 seconds
+      // Auto-dismiss alerts after 5 seconds (except for alerts with 'no-auto-dismiss' class)
     setTimeout(function() {
-        const alerts = document.querySelectorAll('.alert');
+        const alerts = document.querySelectorAll('.alert:not(.no-auto-dismiss)');
         alerts.forEach(function(alert) {
             const bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();

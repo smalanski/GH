@@ -88,11 +88,11 @@ public class VegetableWebController {
             } else {
                 vegetable = new Vegetable();
             }
-            
-            vegetable.setName(vegetableDto.getName());
+              vegetable.setName(vegetableDto.getName());
             vegetable.setVariety(vegetableDto.getVariety());
             vegetable.setPlantingDate(vegetableDto.getPlantingDate());
             vegetable.setExpectedHarvestDate(vegetableDto.getExpectedHarvestDate());
+            vegetable.setLastWatering(vegetableDto.getLastWatering());
             vegetable.setNotes(vegetableDto.getNotes());
             
             Vegetable savedVegetable = vegetableService.saveVegetable(vegetable, vegetableDto.getGreenhouseId());
@@ -162,5 +162,17 @@ public class VegetableWebController {
         model.addAttribute("vegetables", vegetableService.getVegetablesReadyToHarvest(harvestDate));
         model.addAttribute("harvestDate", harvestDate);
         return "vegetable/harvest";
+    }
+    
+    @GetMapping("/water/{id}")
+    public String waterVegetable(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            vegetableService.waterVegetable(id);
+            redirectAttributes.addFlashAttribute("message", "Vegetable watered successfully");
+            return "redirect:/";
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to water vegetable: " + e.getMessage());
+            return "redirect:/";
+        }
     }
 }

@@ -24,11 +24,18 @@ public class GreenhouseWebController {
     public GreenhouseWebController(GreenhouseService greenhouseService, VegetableService vegetableService) {
         this.greenhouseService = greenhouseService;
         this.vegetableService = vegetableService;
-    }
-
-    @GetMapping
+    }    @GetMapping
     public String listGreenhouses(Model model) {
-        model.addAttribute("greenhouses", greenhouseService.findAllGreenhouses());
+        var greenhouses = greenhouseService.findAllGreenhouses();
+        model.addAttribute("greenhouses", greenhouses);
+        
+        // Create a map of greenhouse IDs to their watering status
+        var greenhousesWithUnwateredVegetables = greenhouses.stream()
+            .filter(g -> vegetableService.hasUnwateredVegetables(g.getId()))
+            .map(Greenhouse::getId)
+            .toList();
+        
+        model.addAttribute("needsWatering", greenhousesWithUnwateredVegetables);
         return "greenhouse/list";
     }
 
@@ -89,12 +96,19 @@ public class GreenhouseWebController {
         greenhouseService.deleteGreenhouseById(id);
         redirectAttributes.addFlashAttribute("message", "Greenhouse deleted successfully");
         return "redirect:/greenhouses";
-    }
-
-    @GetMapping("/search")
+    }    @GetMapping("/search")
     public String searchGreenhouses(@RequestParam String name, Model model) {
-        model.addAttribute("greenhouses", greenhouseService.findGreenhousesByName(name));
+        var greenhouses = greenhouseService.findGreenhousesByName(name);
+        model.addAttribute("greenhouses", greenhouses);
         model.addAttribute("searchTerm", name);
+        
+        // Create a map of greenhouse IDs to their watering status
+        var greenhousesWithUnwateredVegetables = greenhouses.stream()
+            .filter(g -> vegetableService.hasUnwateredVegetables(g.getId()))
+            .map(Greenhouse::getId)
+            .toList();
+        
+        model.addAttribute("needsWatering", greenhousesWithUnwateredVegetables);
         return "greenhouse/list";
     }
 }

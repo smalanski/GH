@@ -48,20 +48,43 @@
                         <div class="table-responsive" th:if="${not #lists.isEmpty(vegetables)}">
                             <table class="table table-striped table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Name</th>
+                                    <tr>                                        <th>Name</th>
                                         <th>Variety</th>
                                         <th>Planting Date</th>
                                         <th>Expected Harvest</th>
+                                        <th>Last Watering</th>
+                                        <th>Growing Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="vegetable : ${vegetables}">
-                                        <td th:text="${vegetable.name}">Tomato</td>
+                                    <tr th:each="vegetable : ${vegetables}">                                        <td th:text="${vegetable.name}">Tomato</td>
                                         <td th:text="${vegetable.variety}">Roma</td>
-                                        <td th:text="${#temporals.format(vegetable.plantingDate, 'dd-MM-yyyy')}">01-01-2023</td>
-                                        <td th:text="${vegetable.expectedHarvestDate != null ? #temporals.format(vegetable.expectedHarvestDate, 'dd-MM-yyyy') : 'N/A'}">01-03-2023</td>
+                                        <td th:text="${#temporals.format(vegetable.plantingDate, 'dd-MM-yyyy')}">01-01-2023</td>                                        <td th:text="${vegetable.expectedHarvestDate != null ? #temporals.format(vegetable.expectedHarvestDate, 'dd-MM-yyyy') : 'N/A'}">01-03-2023</td>
+                                        <td th:text="${vegetable.lastWatering != null ? #temporals.format(vegetable.lastWatering, 'dd-MM-yyyy HH:mm') : 'Not watered'}">10-06-2025 13:45</td>
+                                        <td>
+                                            <div th:if="${vegetable.plantingDate != null and vegetable.expectedHarvestDate != null}" style="width: 100%;">
+                                                <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                         th:style="'width: ' + ${T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, T(java.time.LocalDate).now()) * 100.0 / T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, vegetable.expectedHarvestDate)} + '%'"
+                                                         th:text="${#numbers.formatDecimal(T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, T(java.time.LocalDate).now()) * 100.0 / T(java.time.temporal.ChronoUnit).DAYS.between(vegetable.plantingDate, vegetable.expectedHarvestDate), 1, 0) + '%'}">
+                                                         25%
+                                                    </div>
+                                                </div>
+                                                <div class="text-center mt-1" style="font-size: 0.8rem;">
+                                                    <span th:if="${vegetable.expectedHarvestDate.isAfter(T(java.time.LocalDate).now())}"
+                                                          th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), vegetable.expectedHarvestDate) + ' days left'}">
+                                                        30 days left
+                                                    </span>
+                                                    <span th:if="${vegetable.expectedHarvestDate.isBefore(T(java.time.LocalDate).now()) or vegetable.expectedHarvestDate.isEqual(T(java.time.LocalDate).now())}"
+                                                          class="text-success fw-bold">
+                                                        Ready!
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <span th:if="${vegetable.plantingDate == null or vegetable.expectedHarvestDate == null}" 
+                                                  class="text-muted">N/A</span>
+                                        </td>
                                         <td>
                                             <a th:href="@{/vegetables/{id}(id=${vegetable.id})}" class="btn btn-sm btn-info">
                                                 <i class="fas fa-eye"></i>

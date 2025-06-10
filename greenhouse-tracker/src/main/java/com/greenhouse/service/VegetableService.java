@@ -40,14 +40,35 @@ public class VegetableService {
         greenhouseRepository.deleteById(id);
     }
 
+    public List<Vegetable> getUnwateredVegetablesByGreenhouseId(Long greenhouseId) {
+        List<Vegetable> vegetables = getVegetablesByGreenhouseId(greenhouseId);
+        return vegetables.stream()
+                .filter(vegetable -> vegetable.getLastWatering() == null)
+                .toList();
+    }
+    
+    public boolean hasUnwateredVegetables(Long greenhouseId) {
+        return !getUnwateredVegetablesByGreenhouseId(greenhouseId).isEmpty();
+    }
+
     // Vegetable methods
     public List<Vegetable> getAllVegetables() {
         return vegetableRepository.findAll();
-    }
-
+    }    
+    
     public Vegetable getVegetableById(Long id) {
         return vegetableRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vegetable not found with id: " + id));
+    }
+    
+    public List<Vegetable> getUnwateredVegetables() {
+        return vegetableRepository.findByLastWateringIsNull();
+    }
+    
+    public Vegetable waterVegetable(Long id) {
+        Vegetable vegetable = getVegetableById(id);
+        vegetable.setLastWatering(java.time.LocalDateTime.now());
+        return vegetableRepository.save(vegetable);
     }
 
     public List<Vegetable> getVegetablesByGreenhouseId(Long greenhouseId) {

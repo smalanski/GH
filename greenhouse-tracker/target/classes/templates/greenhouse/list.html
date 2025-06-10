@@ -31,12 +31,14 @@
             </div>
         </div>
 
-        <!-- Greenhouse list -->
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Greenhouse list -->        <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col" th:each="greenhouse : ${greenhouses}">
                 <div class="card h-100">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="card-title mb-0" th:text="${greenhouse.name}">Greenhouse Name</h5>
+                    <div th:class="${needsWatering.contains(greenhouse.id)} ? 'card-header bg-danger text-white' : 'card-header bg-success text-white'">
+                        <h5 class="card-title mb-0">
+                            <i th:if="${needsWatering.contains(greenhouse.id)}" class="fas fa-tint-slash me-2" title="Has unwatered plants"></i>
+                            <span th:text="${greenhouse.name}">Greenhouse Name</span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <p class="card-text">
